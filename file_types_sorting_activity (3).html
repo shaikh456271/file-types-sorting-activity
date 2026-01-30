@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>File Types Sorting Activity</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f4f6f8; padding:20px; }
+h1 { text-align:center; }
+.container { display:flex; justify-content:space-between; gap:20px; }
+.column { width:45%; background:#fff; padding:15px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.card { padding:10px; margin:8px 0; background:#e3f2fd; border-radius:8px; cursor:grab; }
+.dropzone { min-height:50px; padding:10px; margin:8px 0; border:2px dashed #90caf9; border-radius:8px; }
+.correct { background:#c8e6c9 !important; }
+</style>
+</head>
+<body>
+
+<h1>🔍 File Types Sorting Activity</h1>
+<p style="text-align:center;">Drag the file type and drop it onto the correct description.</p>
+
+<div class="container">
+  <div class="column">
+    <h3>File Types</h3>
+    <div class="card" draggable="true" id="docx">.docx</div>
+    <div class="card" draggable="true" id="jpg">.jpg</div>
+    <div class="card" draggable="true" id="mp4">.mp4</div>
+    <div class="card" draggable="true" id="txt">.txt</div>
+    <div class="card" draggable="true" id="pptx">.pptx</div>
+  </div>
+
+  <div class="column">
+    <h3>Uses / Description</h3>
+    <div class="dropzone" data-match="docx">Word processing document</div>
+    <div class="dropzone" data-match="jpg">Image / photo file</div>
+    <div class="dropzone" data-match="mp4">Video file</div>
+    <div class="dropzone" data-match="txt">Plain text file</div>
+    <div class="dropzone" data-match="pptx">Presentation file</div>
+  </div>
+</div>
+
+<script>
+const cards = document.querySelectorAll('.card');
+const zones = document.querySelectorAll('.dropzone');
+
+cards.forEach(card => {
+  card.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text', e.target.id);
+  });
+});
+
+zones.forEach(zone => {
+  zone.addEventListener('dragover', e => e.preventDefault());
+  zone.addEventListener('drop', e => {
+    const id = e.dataTransfer.getData('text');
+    if (zone.dataset.match === id) {
+      zone.textContent += " ✔";
+      zone.classList.add('correct');
+      document.getElementById(id).style.display = 'none';
+    } else {
+      alert("Try again!");
+    }
+  });
+});
+</script>
+
+</body>
+</html>
